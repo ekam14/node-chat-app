@@ -15,11 +15,19 @@ app.use(express.static(publicPath));   // app.use(express.static(root))  root(ab
 io.on('connection',(socket) => { // io  is server and socket is for all connections
   console.log('User connected');
 
-  // socket.emit('newMessage',{   // newMessage i.e from server to the individual user //
-  //   from:"John Doe",
-  //   text:"Hello There!!",
-  //   createdAt: 12.12
-  // });
+  // Greetings  from server when user connects //
+  socket.emit('newMessage',{   // newMessage i.e from server to the individual user //
+    from:"Admin",
+    text:"WELCOME !!",
+    createdAt: new Date().getTime()
+  });
+
+  //New User Joins
+  socket.broadcast.emit('newMessage',{
+    from:"Admin",
+    text:"New User has joined",
+    createdAt: new Date().getTime()
+  });
 
   socket.on('createMessage',(message) => {  // from client to the server //
     console.log('New message created',message);
