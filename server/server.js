@@ -8,12 +8,23 @@ var app = express();
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
-var io = socketIO(server);
+var io = socketIO(server); // socketIO needs the server we made//
 
 app.use(express.static(publicPath));   // app.use(express.static(root))  root(absolute path) here must be from __dirname
 
-io.on('connection',(socket) => {
+io.on('connection',(socket) => { // io  is server and socket is for all connections
   console.log('User connected');
+
+  socket.emit('newMessage',{
+    from:"John Doe",
+    text:"Hello There!!",
+    createdAt: 12.12
+  });
+
+  socket.on('createMessage',(message) => {  // from client to the server //
+    console.log('New message created',message);
+  });
+
   socket.on('disconnect',() =>{
     console.log('User disconnected');
   });
