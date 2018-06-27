@@ -3,6 +3,8 @@ const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
 
+const {generateMessage} = require('./utils/message');
+
 const publicPath = path.join(__dirname,'../public');  // using path for addressing is much easier and nicer thing to do //
 var app = express();
 const port = process.env.PORT || 3000;
@@ -16,26 +18,14 @@ io.on('connection',(socket) => { // io  is server and socket is for all connecti
   console.log('User connected');
 
   // Greetings  from server when user connects //
-  socket.emit('newMessage',{   // newMessage i.e from server to the individual user //
-    from:"Admin",
-    text:"WELCOME !!",
-    createdAt: new Date().getTime()
-  });
+  socket.emit('newMessage',generateMessage('Admin','Welcome!!'));   // newMessage i.e from server to the individual user //
 
   //New User Joins
-  socket.broadcast.emit('newMessage',{
-    from:"Admin",
-    text:"New User has joined",
-    createdAt: new Date().getTime()
-  });
+  socket.broadcast.emit('newMessage',generateMessage('Admin','New User has joined'));
 
   socket.on('createMessage',(message) => {  // from client to the server //
-    console.log('New message created',message);
-    io.emit('newMessage',{    //sending the received message to all the users //
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
+    console.log('New message created',message);  //sending the received message to all the users //
+    io.emit('newMessage',generateMessage(message.from,message.text));
   });
 
   socket.on('disconnect',() =>{
