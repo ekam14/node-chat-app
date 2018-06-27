@@ -15,14 +15,19 @@ app.use(express.static(publicPath));   // app.use(express.static(root))  root(ab
 io.on('connection',(socket) => { // io  is server and socket is for all connections
   console.log('User connected');
 
-  socket.emit('newMessage',{
-    from:"John Doe",
-    text:"Hello There!!",
-    createdAt: 12.12
-  });
+  // socket.emit('newMessage',{   // newMessage i.e from server to the individual user //
+  //   from:"John Doe",
+  //   text:"Hello There!!",
+  //   createdAt: 12.12
+  // });
 
   socket.on('createMessage',(message) => {  // from client to the server //
     console.log('New message created',message);
+    io.emit('newMessage',{    //sending the received message to all the users //
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
   });
 
   socket.on('disconnect',() =>{

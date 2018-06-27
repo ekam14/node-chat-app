@@ -10,7 +10,7 @@ socket.on('newMessage',function(message){  //server to the client //
   console.log('New Message',message);
 });
 
-socket.emit('createMessage',{
-  from:"John Doe",
-  text:"Hello Server!!"
-});
+// socket.emit('createMessage',{ // i.e user to the server//
+//   from:"John Doe",
+//   text:"Hello Everyone!!"
+// });
