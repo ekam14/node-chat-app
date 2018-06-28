@@ -8,8 +8,8 @@ socket.on('disconnect',function(){
 
 socket.on('newMessage',function(message){  //server to the client //
   var formattedTime = moment(message.createdAt).format('h:mm a');
-  var template = jQuery('#message-template').html();
-  var html = Mustache.render(template,{
+  var template = jQuery('#message-template').html();  //get the html of the script//
+  var html = Mustache.render(template,{ //send the output object//
     text:message.text,
     from:message.from,
     createdAt:formattedTime
@@ -27,7 +27,7 @@ jQuery('#message-form').on('submit',function(e){
     from:'User',
     text:messageTextBox.val()
   },function(){   // callback
-    messageTextBox.val('');
+    messageTextBox.val('');  // will make the text box empty after sending it //
   });
 });
 

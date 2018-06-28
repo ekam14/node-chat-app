@@ -1,31 +1,28 @@
 <!DOCTYPE html>
   <head>
     <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Join | Chat App</title>
+    <link rel="stylesheet" href="/css/styles.css">
   </head>
-  <body>
-    <div class="container">
-      <p>Welcome to the Chat App</p>
-      <ol class="list-group" id="messages"></ol><br><br>
-      <form id="message-form" method="post">
-        <div class="form-group">
-          <input type="text" name="message" placeholder="Enter Your Message" class="form-control" autofocus autocomplete="off">
+  <body class="centered-form">
+    <div class="centered-form__form">
+      <form action="/chat.html">
+        <div class="form-field">
+          <h3>Join a Chat</h3>
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
-      </form><br>
-      <button id="send-location" class="btn btn-outline-success">Send Location</button>
+        <div class="form-field">
+          <label>Display Name</label>
+          <input type="text" name="name" autofocus>
+        </div>
+        <div class="form-field">
+          <label>Room Name</label>
+          <input type="text" name="room">
+        </div>
+        <div class="form-field">
+          <button>Join</button>
+        </div>
+      </form>
     </div>
   </body>
-  <script id="message-template" type="text/template">
-    <p>{{from}} {{createdAt}}:{{text}}</p>
-  </script>
-  <script id="location-message-template" type="text/template">
-    <p>{{from}} {{createdAt}}:<a target="_blank" href="{{url}}">My Current Location</a></p>
-  </script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="/js/libs/moment.js"></script>
-  <script src="/js/libs/mustache.js"></script>
-  <script src="/js/index.js"></script>
 </html>
