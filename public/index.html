@@ -2,10 +2,21 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body>
-    <p>Welcome to the Chat App</p>
+    <div class="container">
+      <p>Welcome to the Chat App</p>
+      <ol class="list-group" id="messages"></ol><br><br>
+      <form id="message-form" method="post">
+        <div class="form-group">
+          <input type="text" name="message" placeholder="Enter Your Message" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
   </body>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="/js/index.js"></script>
 </html>

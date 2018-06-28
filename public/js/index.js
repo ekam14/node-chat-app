@@ -8,9 +8,17 @@ socket.on('disconnect',function(){
 
 socket.on('newMessage',function(message){  //server to the client //
   console.log('New Message',message);
+  var li = jQuery('<li class="list-group-item"></li>');
+  li.text(`${message.from}: ${message.text}`);
+  jQuery('#messages').append(li);
 });
 
-// socket.emit('createMessage',{ // i.e user to the server//
-//   from:"John Doe",
-//   text:"Hello Everyone!!"
-// });
+jQuery('#message-form').on('submit',function(e){
+  e.preventDefault();
+  socket.emit('createMessage',{
+    from:'User',
+    text:jQuery('[name=message]').val()
+  },function(){   // callback
+
+  });
+});

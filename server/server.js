@@ -23,9 +23,10 @@ io.on('connection',(socket) => { // io  is server and socket is for all connecti
   //New User Joins
   socket.broadcast.emit('newMessage',generateMessage('Admin','New User has joined'));
 
-  socket.on('createMessage',(message) => {  // from client to the server //
+  socket.on('createMessage',(message,callback) => {  // from client to the server //
     console.log('New message created',message);  //sending the received message to all the users //
     io.emit('newMessage',generateMessage(message.from,message.text));
+    callback('This is from the server.'); // acknowledgement//
   });
 
   socket.on('disconnect',() =>{
