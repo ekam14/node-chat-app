@@ -26,7 +26,7 @@ io.on('connection',(socket) => { // io  is server and socket is for individual c
   socket.on('createMessage',(message,callback) => {  // from client to the server //
     console.log('New message created',message);  //sending the received message to all the users //
     io.emit('newMessage',generateMessage(message.from,message.text));
-    callback('This is from the server.'); // acknowledgement//
+    callback(); // acknowledgement//
   });
 
   socket.on('createLocationMessage',(coords) => {
