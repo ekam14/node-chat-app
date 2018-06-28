@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
 
-const {generateMessage} = require('./utils/message');
+const {generateMessage,generateLocationMessage} = require('./utils/message');
 
 const publicPath = path.join(__dirname,'../public');  // using path for addressing is much easier and nicer thing to do //
 var app = express();
@@ -14,7 +14,7 @@ var io = socketIO(server); // socketIO needs the server we made//
 
 app.use(express.static(publicPath));   // app.use(express.static(root))  root(absolute path) here must be from __dirname
 
-io.on('connection',(socket) => { // io  is server and socket is for all connections
+io.on('connection',(socket) => { // io  is server and socket is for individual connection
   console.log('User connected');
 
   // Greetings  from server when user connects //
@@ -27,6 +27,10 @@ io.on('connection',(socket) => { // io  is server and socket is for all connecti
     console.log('New message created',message);  //sending the received message to all the users //
     io.emit('newMessage',generateMessage(message.from,message.text));
     callback('This is from the server.'); // acknowledgement//
+  });
+
+  socket.on('createLocationMessage',(coords) => {
+    io.emit('locationMessage',generateLocationMessage('Admin',coords.latitude,coords.longitude));
   });
 
   socket.on('disconnect',() =>{
