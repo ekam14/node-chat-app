@@ -1,6 +1,7 @@
-var socket = io();  //this file will only run we are on chat.html in browser//
+var socket = io();  //this file will only run we are on chat.html in browser client side//
 socket.on('connect',function(){    //only custom events need .emit calling//
-  var params = jQuery.deparam(window.location.search);
+  //console.log('Connected to server');
+  var params = jQuery.deparam(window.location.search); //for getting values from url//
   socket.emit('join',params,function(err){
     if(err){
       alert(err);
@@ -10,6 +11,16 @@ socket.on('connect',function(){    //only custom events need .emit calling//
     }
   });
 });
+
+socket.on('updateUserList',function(users){
+  console.log(users);
+  var ol = jQuery('<ol></ol>');
+  users.forEach((user) => {
+    ol.append(jQuery('<li></li>').text(user));
+  });
+  jQuery('#users').html(ol);
+});
+
 socket.on('disconnect',function(){
   console.log('disconnected to server');
 });
@@ -32,7 +43,6 @@ jQuery('#message-form').on('submit',function(e){
   e.preventDefault(); // prevent the form from submitting //
   var messageTextBox = jQuery('[name=message]');
   socket.emit('createMessage',{
-    from:'User',
     text:messageTextBox.val()
   },function(){   // callback
     messageTextBox.val('');  // will make the text box empty after sending it //
