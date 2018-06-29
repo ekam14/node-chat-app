@@ -1,6 +1,14 @@
-var socket = io();
-socket.on('connect',function(){
-  console.log('connected to server');
+var socket = io();  //this file will only run we are on chat.html in browser//
+socket.on('connect',function(){    //only custom events need .emit calling//
+  var params = jQuery.deparam(window.location.search);
+  socket.emit('join',params,function(err){
+    if(err){
+      alert(err);
+      window.location.href='/';  //go back to home page//
+    }else{
+      console.log('No error');
+    }
+  });
 });
 socket.on('disconnect',function(){
   console.log('disconnected to server');

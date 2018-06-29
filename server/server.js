@@ -4,6 +4,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 
 const {generateMessage,generateLocationMessage} = require('./utils/message');
+const {isRealString} = require('./utils/validation');
 
 const publicPath = path.join(__dirname,'../public');  // using path for addressing is much easier and nicer thing to do //
 var app = express();
@@ -17,6 +18,12 @@ app.use(express.static(publicPath));   // app.use(express.static(root))  root(ab
 io.on('connection',(socket) => { // io  is server and socket is for individual connection
   console.log('User connected');
 
+  socket.on('join',(params,callback) => {
+    if(!isRealString(params.name) || !isRealString(params.room)){
+      callback('Name and Room Name required');
+    }
+    callback();
+  });
   // Greetings  from server when user connects //
   socket.emit('newMessage',generateMessage('Admin','Welcome!!'));   // newMessage i.e from server to the individual user //
 
