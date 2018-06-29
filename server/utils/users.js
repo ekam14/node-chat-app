@@ -10,7 +10,7 @@ class Users{
     return user;
   }
   getUser (id) {
-    return this.users.filter((user) => user.id === id)[0]
+    return this.users.filter((user) => user.id === id)[0];
   }
   removeUser (id) {
     var user = this.getUser(id);
@@ -19,10 +19,16 @@ class Users{
     }
     return user;
   }
-  getUserList(room){  //by names only
+  getRoomList(){   //get all active rooms//
+    return this.users.map((user) => user.room);
+  }
+  getUserList(room){  //by names and rooms only
     var users = this.users.filter((user) => user.room === room);
     var namesArray = users.map((user) => user.name);
     return namesArray;
+  }
+  getFullUserList(){  // get all names used //
+    return this.users.map((user) => user.name);
   }
 }
 

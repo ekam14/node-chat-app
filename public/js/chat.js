@@ -12,6 +12,7 @@ socket.on('connect',function(){    //only custom events need .emit calling//
   });
 });
 
+
 socket.on('updateUserList',function(users){
   console.log(users);
   var ol = jQuery('<ol></ol>');
@@ -39,9 +40,17 @@ socket.on('newMessage',function(message){  //server to the client //
   // jQuery('#messages').append(li);
 });
 
+// jQuery('[name=message]').on('input',function(){
+//   var messageTextBox = jQuery('[name = message]').val()
+//   if(messageTextBox.length > 0){
+//     socket.emit('Typing',{
+//       text:' is typing..'
+//     });
+// });
+
 jQuery('#message-form').on('submit',function(e){
   e.preventDefault(); // prevent the form from submitting //
-  var messageTextBox = jQuery('[name=message]');
+  var messageTextBox = jQuery('[name=message]'); //text in the input field of form //
   socket.emit('createMessage',{
     text:messageTextBox.val()
   },function(){   // callback
