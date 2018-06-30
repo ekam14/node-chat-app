@@ -1,4 +1,10 @@
 var socket = io();  //this file will only run we are on chat.html in browser client side//
+
+var messageCount = 0;
+var favicon=new Favico({
+    animation:'popFade'
+});
+
 socket.on('connect',function(){    //only custom events need .emit calling//
   //console.log('Connected to server');
   var params = jQuery.deparam(window.location.search); //for getting values from url//
@@ -34,6 +40,7 @@ socket.on('newMessage',function(message){  //server to the client //
     from:message.from,
     createdAt:formattedTime
   });
+  displayMessageCount();
   jQuery('#messages').append(html);
   // var li = jQuery('<li class="list-group-item"></li>');
   // li.text(`${message.from} ${formattedTime}: ${message.text}`);
@@ -87,6 +94,7 @@ socket.on('locationMessage',function(message){
     from:message.from,
     createdAt:formattedTime
   });
+  displayMessageCount();
   jQuery('#messages').append(html);
   // var li = jQuery('<li class="list-group-item"></li>');
   // var a = jQuery('<a target="_blank">My current Location</a>');
@@ -94,4 +102,42 @@ socket.on('locationMessage',function(message){
   // a.attr('href',message.url);
   // li.append(a);
   // jQuery('#messages').append(li);
+});
+
+jQuery('#message').on('input',function(){
+  writing(false);
+});
+jQuery('#message').on('blur',function(){
+  writing(false);
+});
+jQuery('#message').on('focus',function(){
+  writing(false);
+});
+function writing(query){
+  var message = jQuery('#message').val();
+  var display = document.getElementById('userTyping').style.display;
+  if(message === ''){
+    display = query ? 'block' : 'none';
+  }else{
+    display = query ? 'none' : 'block';
+  }
+  document.getElementById('userTyping').style.display = display;
+};
+
+
+function displayMessageCount(){
+  if(!document.hasFocus()){  // if window is not in focus //
+    favicon.badge(++messageCount);
+  }
+};
+
+function clearMessage(){
+  messageCount=0;
+  favicon.badge(messageCount);
+};
+
+$(window).focus(function(e){
+  if(messageCount > 0){
+    clearMessage();
+  }
 });
